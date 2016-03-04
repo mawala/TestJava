@@ -1,8 +1,9 @@
 package mavenTest.zad2;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class HeheszkiDobreTesty {
+public class HultajChochlaDobreTesty {
 
 	private Psikus test;
 	
@@ -31,20 +32,26 @@ public class HeheszkiDobreTesty {
 	
 	@Parameters
     public static Collection<Object[]> dane() {
-        return Arrays.asList(new Object[][] {
-        	    { 1 }, { 100 }, { 80 }, { 17 }
+        return Arrays.asList(new Object[][] {     
+        		{ 12, 1 }, { 313, 3 }, { -1234, 5 }, { 82378239, 8 }, { 2718, 4 }  
            });
     }
 	
     private Integer argument;
+    private int oczekiwany;
 
-    public HeheszkiDobreTesty(Integer argument) {
+    public HultajChochlaDobreTesty(Integer argument, int oczekiwany) {
         this.argument = argument;
+        this.oczekiwany = oczekiwany;
     }
-
-	@Test
-	public void HeheszkiDziala() {
-		assertThat(test.Heheszki(argument), greaterThanOrEqualTo(0));
-		assertThat(test.Heheszki(argument), lessThan(argument));
+    
+    @Test
+	public void HultajChochlaDziala() {
+		try {
+			assertThat(test.HultajChochla(argument), not(argument));
+			assertThat(test.HultajChochla(argument).toString().length(), is(oczekiwany));
+		} catch (NieudanyPsikusException e) {
+			fail("Metoda nie dziala");
+		}
 	}
 }
