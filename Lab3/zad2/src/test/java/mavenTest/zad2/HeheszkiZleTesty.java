@@ -1,6 +1,9 @@
 package mavenTest.zad2;
 
-import static org.junit.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +16,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class CyfroKradZleTesty {
+public class HeheszkiZleTesty {
 
 	private Psikus test;
 	
@@ -30,23 +33,18 @@ public class CyfroKradZleTesty {
 	@Parameters
     public static Collection<Object[]> dane() {
         return Arrays.asList(new Object[][] {     
-        		{ 1 }, { -1 }, { 0 }, { 7 }, { -8 }  
+        		{ -1 }, { -100 }, { 0 }, { -17 }  
            });
     }
 	
     private Integer argument;
 
-    public CyfroKradZleTesty(Integer argument) {
+    public HeheszkiZleTesty(Integer argument) {
         this.argument = argument;
     }
-    
-    @Test
-	public void CyfroKradJednaCyfra_ZwracaNull() {
-    	assertNull(test.CyfroKrad(argument));
-	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
-	public void CyfroKradWyrzucaWyjatek_Null() {
-		test.CyfroKrad(null);
+	public void HeheszkiWyrzucaWyjatek_Niedodatni() {
+		test.Heheszki(argument);
 	}
 }
