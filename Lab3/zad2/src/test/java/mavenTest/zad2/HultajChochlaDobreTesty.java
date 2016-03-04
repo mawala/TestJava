@@ -2,7 +2,6 @@ package mavenTest.zad2;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -48,7 +47,6 @@ public class HultajChochlaDobreTesty {
     @Test
 	public void HultajChochlaDziala() {
 		try {
-			assertThat(test.HultajChochla(argument), not(argument));
 			assertThat(test.HultajChochla(argument).toString().length(), is(oczekiwany));
 		} catch (NieudanyPsikusException e) {
 			fail("Metoda nie dziala");
