@@ -33,7 +33,7 @@ public class HultajChochlaDobreTesty {
 	@Parameters
     public static Collection<Object[]> dane() {
         return Arrays.asList(new Object[][] {     
-        		{ 12, 1 }, { 313, 3 }, { -1234, 5 }, { 82378239, 8 }, { 2718, 4 }  
+        		{ 12, 2 }, { 313, 3 }, { -1234, 5 }, { 82378239, 8 }, { 2718, 4 }  
            });
     }
 	
