@@ -1,10 +1,5 @@
 package mavenTest.zad2;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -46,5 +41,10 @@ public class HeheszkiZleTesty {
 	@Test(expected = IllegalArgumentException.class)
 	public void HeheszkiWyrzucaWyjatek_Niedodatni() {
 		test.Heheszki(argument);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void HeheszkiWyrzucaWyjatek_Null() {
+		test.Heheszki(null);
 	}
 }
