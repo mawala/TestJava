@@ -43,7 +43,7 @@ public class HeheszkiZleTesty {
 		test.Heheszki(argument);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void HeheszkiWyrzucaWyjatek_Null() {
 		test.Heheszki(null);
 	}
