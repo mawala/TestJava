@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CyfroKradDobreTesty.class, CyfroKradZleTesty.class, HeheszkiDobreTesty.class, HeheszkiZleTesty.class,
-		HultajChochlaDobreTesty.class, HultajChochlaZleTesty.class })
+		HultajChochlaDobreTesty.class, HultajChochlaZleTesty.class, NieksztaltekDobreTesty.class, NieksztaltekZleTesty.class })
 public class AllTest {
 
 }
