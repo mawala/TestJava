@@ -26,7 +26,7 @@ public class MessageAppEasyMockTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		mockService = createMock(MessageService.class);
+		mockService = mock(MessageService.class);
 		messenger = new Messenger(mockService);
 	}
 
@@ -64,7 +64,16 @@ public class MessageAppEasyMockTest {
 	}
 	
 	@Test
-	public void sendMessage_Correct() throws MalformedRecipientException {
+	public void testConnection_NullServer() {
+		expect(mockService.checkConnection(null)).andReturn(ConnectionStatus.FAILURE);
+		replay(mockService);
+		int result = messenger.testConnection(null);
+		assertEquals(1, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_CorrectAll() throws MalformedRecipientException {
 		expect(mockService.send(VALID_SERVER, VALID_MESSAGE)).andReturn(SendingStatus.SENT);
 		replay(mockService);
 		int result = messenger.sendMessage(VALID_SERVER, VALID_MESSAGE);
@@ -73,11 +82,29 @@ public class MessageAppEasyMockTest {
 	}
 	
 	@Test
-	public void sendMessage_Correct_NotSent() throws MalformedRecipientException {
+	public void sendMessage_CorrectAll_NotSent() throws MalformedRecipientException {
 		expect(mockService.send(VALID_SERVER, VALID_MESSAGE)).andReturn(SendingStatus.SENDING_ERROR);
 		replay(mockService);
 		int result = messenger.sendMessage(VALID_SERVER, VALID_MESSAGE);
 		assertEquals(1, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_CorrectServer_WrongMessage() throws MalformedRecipientException {
+		expect(mockService.send(VALID_SERVER, INVALID_MESSAGE)).andThrow(new MalformedRecipientException());
+		replay(mockService);
+		int result = messenger.sendMessage(VALID_SERVER, INVALID_MESSAGE);
+		assertEquals(2, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_CorrectServer_NullMessage() throws MalformedRecipientException {
+		expect(mockService.send(VALID_SERVER, null)).andThrow(new MalformedRecipientException());
+		replay(mockService);
+		int result = messenger.sendMessage(VALID_SERVER, null);
+		assertEquals(2, result);
 		verify(mockService);
 	}
 	
@@ -91,19 +118,46 @@ public class MessageAppEasyMockTest {
 	}
 	
 	@Test
-	public void sendMessage_WrongMessage() throws MalformedRecipientException {
-		expect(mockService.send(VALID_SERVER, INVALID_MESSAGE)).andThrow(new MalformedRecipientException());
+	public void sendMessage_WrongServer_WrongMessage() throws MalformedRecipientException {
+		expect(mockService.send(INVALID_SERVER2, INVALID_MESSAGE)).andThrow(new MalformedRecipientException());
 		replay(mockService);
-		int result = messenger.sendMessage(VALID_SERVER, INVALID_MESSAGE);
+		int result = messenger.sendMessage(INVALID_SERVER2, INVALID_MESSAGE);
 		assertEquals(2, result);
 		verify(mockService);
 	}
 	
 	@Test
-	public void sendMessage_WrongServer_WrongMessage() throws MalformedRecipientException {
-		expect(mockService.send(INVALID_SERVER2, INVALID_MESSAGE)).andThrow(new MalformedRecipientException());
+	public void sendMessage_WrongServer_NullMessage() throws MalformedRecipientException {
+		expect(mockService.send(INVALID_SERVER2, null)).andThrow(new MalformedRecipientException());
 		replay(mockService);
-		int result = messenger.sendMessage(INVALID_SERVER2, INVALID_MESSAGE);
+		int result = messenger.sendMessage(INVALID_SERVER2, null);
+		assertEquals(2, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_NullServer_CorrectMessage() throws MalformedRecipientException {
+		expect(mockService.send(null, VALID_MESSAGE)).andThrow(new MalformedRecipientException());
+		replay(mockService);
+		int result = messenger.sendMessage(null, VALID_MESSAGE);
+		assertEquals(2, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_NullServer_WrongMessage() throws MalformedRecipientException {
+		expect(mockService.send(null, INVALID_MESSAGE)).andThrow(new MalformedRecipientException());
+		replay(mockService);
+		int result = messenger.sendMessage(null, INVALID_MESSAGE);
+		assertEquals(2, result);
+		verify(mockService);
+	}
+	
+	@Test
+	public void sendMessage_NullServer_NullMessage() throws MalformedRecipientException {
+		expect(mockService.send(null, null)).andThrow(new MalformedRecipientException());
+		replay(mockService);
+		int result = messenger.sendMessage(null, null);
 		assertEquals(2, result);
 		verify(mockService);
 	}

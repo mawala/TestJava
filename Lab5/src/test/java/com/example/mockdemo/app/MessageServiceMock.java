@@ -20,7 +20,7 @@ public class MessageServiceMock implements MessageService {
 	
 	@Override
 	public ConnectionStatus checkConnection(String server) {
-		if (connectionExists && server.endsWith(".pl")) {
+		if (connectionExists && server != null && server.endsWith(".pl")) {
 			return ConnectionStatus.SUCCESS;
 		}
 		return ConnectionStatus.FAILURE;

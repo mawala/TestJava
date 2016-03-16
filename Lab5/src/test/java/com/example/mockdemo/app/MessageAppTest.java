@@ -1,13 +1,10 @@
 package com.example.mockdemo.app;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.example.mockdemo.messenger.MalformedRecipientException;
 
 public class MessageAppTest {
 
@@ -34,58 +31,90 @@ public class MessageAppTest {
 	}
 
 	@Test
-	public void testConnectionCorrectServer_WithConnection() {
+	public void testConnection_CorrectServer_WithConnection() {
 		msm.setConnection(true);
 		assertEquals(0, messenger.testConnection(VALID_SERVER));
 	}
 	
 	@Test
-	public void tesConnectionCorrectServer_WithoutConnection() {
+	public void testConnection_CorrectServer_WithoutConnection() {
 		msm.setConnection(false);
 		assertEquals(1, messenger.testConnection(VALID_SERVER));
 	}
 	
 	@Test
-	public void tesConnectionWrongServer_WithConnection() {
+	public void testConnection_WrongServer_WithConnection() {
 		msm.setConnection(true);
 		assertEquals(1, messenger.testConnection(INVALID_SERVER));
 	}
 	
 	@Test
-	public void tesConnectionWrongServer_WithoutConnection() {
+	public void testConnection_WrongServer_WithoutConnection() {
 		msm.setConnection(false);
 		assertEquals(1, messenger.testConnection(INVALID_SERVER));
 	}
 	
 	@Test
-	public void checkSendingMessageCorrect_MessageSent() {
+	public void testConnection_NullServer_WithConnection() {
+		msm.setConnection(true);
+		assertEquals(1, messenger.testConnection(null));
+	}
+	
+	@Test
+	public void testConnection_NullServer_WithoutConnection() {
+		msm.setConnection(false);
+		assertEquals(1, messenger.testConnection(null));
+	}
+	
+	@Test
+	public void checkSendingMessage_CorrectAll_MessageSent() {
 		msm.setMessageSent(true);
 		assertEquals(0, messenger.sendMessage(VALID_SERVER, VALID_MESSAGE));
 	}
 	
 	@Test
-	public void checkSendingMessageCorrect_MessageNotSent() {
+	public void checkSendingMessage_CorrectAll_MessageNotSent() {
 		msm.setMessageSent(false);
 		assertEquals(1, messenger.sendMessage(VALID_SERVER, VALID_MESSAGE));
 	}
 	
 	@Test
-	public void checkSendingMessageWrongServer() {
-		assertEquals(2, messenger.sendMessage(INVALID_SERVER2, VALID_MESSAGE));
-	}
-	
-	@Test
-	public void checkSendingMessageWrongMessage() {
+	public void checkSendingMessage_CorrectServer_WrongMessage() {
 		assertEquals(2, messenger.sendMessage(VALID_SERVER, INVALID_MESSAGE));
 	}
 	
 	@Test
-	public void checkSendingMessageNullServer() {
+	public void checkSendingMessage_CorrectServer_NullMessage() {
+		assertEquals(2, messenger.sendMessage(VALID_SERVER, null));
+	}
+	
+	@Test
+	public void checkSendingMessage_WrongServer_CorrectMessage() {
+		assertEquals(2, messenger.sendMessage(INVALID_SERVER2, VALID_MESSAGE));
+	}
+	
+	@Test
+	public void checkSendingMessage_WrongServer_WrongMessage() {
+		assertEquals(2, messenger.sendMessage(INVALID_SERVER2, INVALID_MESSAGE));
+	}
+	
+	@Test
+	public void checkSendingMessage_WrongServer_NullMessage() {
+		assertEquals(2, messenger.sendMessage(INVALID_SERVER2, null));
+	}
+	
+	@Test
+	public void checkSendingMessage_NullServer_CorrectMessage() {
 		assertEquals(2, messenger.sendMessage(null, VALID_MESSAGE));
 	}
 	
 	@Test
-	public void checkSendingMessageNullMessage() {
-		assertEquals(2, messenger.sendMessage(VALID_SERVER, null));
+	public void checkSendingMessage_NullServer_WrongMessage() {
+		assertEquals(2, messenger.sendMessage(null, INVALID_MESSAGE));
+	}
+	
+	@Test
+	public void checkSendingMessage_NullServer_NullMessage() {
+		assertEquals(2, messenger.sendMessage(null, null));
 	}
 }
