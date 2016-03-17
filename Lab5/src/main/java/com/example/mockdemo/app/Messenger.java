@@ -13,11 +13,6 @@ public class Messenger {
 		this.ms = ms;
 	}
 
-	/*Tymczasowo -> Pozniej to zniknie */
-	public Messenger() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public int testConnection(String server) {
 		if (ms.checkConnection(server) == ConnectionStatus.SUCCESS)
 			return 0;
