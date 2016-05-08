@@ -44,7 +44,7 @@ public class LoginTest {
 		LoginPage login = new LoginPage(driver);
 		login.logIn(null, null);
 		
-		Assert.assertNotEquals(0, login.checkErrorsSecond());
+		Assert.assertNotEquals(0, login.checkNullErrors());
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class LoginTest {
 		LoginPage login = new LoginPage(driver);
 		login.logIn(Strings.getEmail(), "pass");
 		
-		Assert.assertNotEquals(0, login.checkErrors());
+		Assert.assertNotEquals(0, login.checkWrongErrors());
 	}
 
 	@After

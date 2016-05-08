@@ -20,10 +20,10 @@ public class LoginPage {
 	private WebElement loginButton;
 	
 	@FindBy(xpath="//div[@id='js-global-login-error-container']/p")
-	private List<WebElement> errorsList;
+	private List<WebElement> errorsWrongList;
 	
 	@FindBy(xpath="//div[contains(.,'This field is required.')]")
-	private List<WebElement> errorsListSecond;
+	private List<WebElement> errorsNullList;
 	
 	public LoginPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
@@ -64,13 +64,13 @@ public class LoginPage {
 		loginButton.click();
 	}
 	
-	public int checkErrors()
+	public int checkWrongErrors()
 	{
-		return errorsList.size();
+		return errorsWrongList.size();
 	}
 	
-	public int checkErrorsSecond()
+	public int checkNullErrors()
 	{
-		return errorsListSecond.size();
+		return errorsNullList.size();
 	}
 }
