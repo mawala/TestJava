@@ -22,6 +22,9 @@ public class LoginPage {
 	@FindBy(xpath="//div[@id='js-global-login-error-container']/p")
 	private List<WebElement> errorsList;
 	
+	@FindBy(xpath="//div[contains(.,'This field is required.')]")
+	private List<WebElement> errorsListSecond;
+	
 	public LoginPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 	}
@@ -64,5 +67,10 @@ public class LoginPage {
 	public int checkErrors()
 	{
 		return errorsList.size();
+	}
+	
+	public int checkErrorsSecond()
+	{
+		return errorsListSecond.size();
 	}
 }
