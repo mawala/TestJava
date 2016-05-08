@@ -20,10 +20,7 @@ public class RepositoriesPage {
 	@FindBy(partialLinkText="Create repository")
 	private WebElement createRepoLink;
 	
-	@FindBy(xpath="//span[contains(.,'Owner')]")
-	private WebElement ownerDropDown;
-	
-	@FindBy(id="repo-filter")
+	@FindBy(xpath="//form[@id='repo-filter']/input")
 	private WebElement filterField;
 	
 	@FindBy(className="iterable-item")
@@ -48,21 +45,11 @@ public class RepositoriesPage {
 		act.keyDown(Keys.SHIFT).click(createRepoLink).keyUp(Keys.SHIFT).build().perform();
 	}
 	
-	public void chooseOwner(int which) {
-		ownerDropDown.click();
-		for(int i = 1; i <= which; i++) {
-			ownerDropDown.sendKeys(Keys.ARROW_DOWN);
-		}
-		ownerDropDown.sendKeys(Keys.ENTER);
-	}
-	
 	public void searchRepos(String search) {
-		filterField.clear();
 		filterField.sendKeys(search);
 	}
 	
 	public int numberRepos() {
 		return reposList.size();
 	}
-	
 }
