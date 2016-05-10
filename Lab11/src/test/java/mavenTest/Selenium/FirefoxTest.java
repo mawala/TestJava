@@ -2,6 +2,8 @@ package mavenTest.Selenium;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +25,7 @@ public class FirefoxTest {
 	@Before
 	public void setUp() {
 		driver = new FirefoxDriver();
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 	}
 
 	@After
