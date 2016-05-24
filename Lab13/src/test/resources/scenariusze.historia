@@ -3,6 +3,15 @@ Zakładając, że użytkownik jest na stronie do logowania
 Gdy poda login i hasło
 Wtedy użytkownik zaloguje się
 
+Scenariusz: Formularz
+Zakładając, że użytkownik jest na stronie głównej
+Gdy wejdzie na stronę do dodawania repozytorium
+I wprowadzi odpowiednie dane
+Wtedy repozytorium zostanie dodane
+
+Gdy usunie repozytorium
+Wtedy repozytorium zostanie usunięte
+
 Scenariusz: Wyszukiwanie
 Zakładając, że użytkownik jest na stronie głównej
 Gdy wpisze słowo do wyszukania

@@ -20,20 +20,33 @@ import mavenTest.Selenium.Helpers.Methods;
 import mavenTest.Selenium.Helpers.Strings;
 import mavenTest.Selenium.Pages.HomePage;
 import mavenTest.Selenium.Pages.LoginPage;
+import mavenTest.Selenium.Pages.RepoPage;
 import mavenTest.Selenium.Pages.RepositoriesPage;
 
 public class MySteps extends Steps {
 	
 	private WebDriver driver;
-	private int beforeSearch;
-	private int afterSearch;
+	private Methods method;
+	private int before;
+	private int after;
 	
 	@BeforeScenario
 	public void setUp() {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		method = new Methods(driver);
 	}
 
+	@AfterScenario(uponOutcome=AfterScenario.Outcome.SUCCESS)
+	public void success() {
+		System.out.println("Test zakonczony pomyslnie");
+	}
+	
+	@AfterScenario(uponOutcome=AfterScenario.Outcome.FAILURE)
+	public void fail() {
+		System.out.println("Test zakonczony niepomyslnie");
+	}
+	
 	@AfterScenario
 	public void tearDown() {
 		driver.quit();
@@ -66,17 +79,15 @@ public class MySteps extends Steps {
 	
 	@Given("użytkownik jest na stronie głównej")
 	public void givenUserIsOnHomePage(){
-		Methods method = new Methods(driver);
 		method.login();
-		
 		RepositoriesPage repos = new RepositoriesPage(driver);		
-		beforeSearch = repos.numberRepos();
+		before = repos.numberRepos();
 	}
 	
 	@When("wpisze słowo do wyszukania")
 	public void whenWritesWordToSearch(){
 		String search = "test";
-		RepositoriesPage repos = new RepositoriesPage(driver);
+		RepositoriesPage repos = new RepositoriesPage(driver);		
 		repos.searchRepos(search);
 	}
 	
@@ -91,7 +102,37 @@ public class MySteps extends Steps {
         });
 		(new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.partialLinkText("test")));
 		
-		afterSearch = repos.numberRepos();
-		Assert.assertTrue(beforeSearch >= afterSearch);
+		after = repos.numberRepos();
+		Assert.assertTrue(before >= after);
+	}
+	
+	@When("wejdzie na stronę do dodawania repozytorium")
+	public void whenGoesToPageToAddRepo(){
+		method.toCreateRepo();
+	}
+	
+	@When("wprowadzi odpowiednie dane")
+	public void whenProvidesCorrectData(){
+		String name = "tests";
+		String desc = "testowe repo";
+		method.createRepo(name, desc);
+	}
+	
+	@Then("repozytorium zostanie dodane")
+	public void thenRepoIsAdded(){
+		RepoPage repo = new RepoPage(driver);
+		Assert.assertTrue(repo.checkRepoPage());
+	}
+	
+	@When("usunie repozytorium")
+	public void whenDeletesRepo(){
+		method.deleteRepo();
+	}
+	
+	@Then("repozytorium zostanie usunięte")
+	public void thenRepoIsDeleted(){
+		RepositoriesPage repos = new RepositoriesPage(driver);
+		after = repos.numberRepos();
+		Assert.assertEquals(before, after);
 	}
 }
