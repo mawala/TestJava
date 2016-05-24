@@ -3,4 +3,7 @@ Zakładając, że użytkownik jest na stronie do logowania
 Gdy poda login i hasło
 Wtedy użytkownik zaloguje się
 
-
+Scenariusz: Wyszukiwanie
+Zakładając, że użytkownik jest na stronie głównej
+Gdy wpisze słowo do wyszukania
+Wtedy strona wyświetli wynik wyszukiwania

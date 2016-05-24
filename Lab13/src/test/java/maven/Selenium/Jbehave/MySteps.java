@@ -9,11 +9,14 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import mavenTest.Selenium.Helpers.Methods;
 import mavenTest.Selenium.Helpers.Strings;
 import mavenTest.Selenium.Pages.HomePage;
 import mavenTest.Selenium.Pages.LoginPage;
@@ -22,7 +25,8 @@ import mavenTest.Selenium.Pages.RepositoriesPage;
 public class MySteps extends Steps {
 	
 	private WebDriver driver;
-	private HomePage home;
+	private int beforeSearch;
+	private int afterSearch;
 	
 	@BeforeScenario
 	public void setUp() {
@@ -37,7 +41,7 @@ public class MySteps extends Steps {
 
 	@Given("użytkownik jest na stronie do logowania")
 	public void givenUserIsOnPageToLogin(){
-		home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 		driver.get(home.getWebLink());
 		home.clickLoginButton();
 	}
@@ -58,5 +62,36 @@ public class MySteps extends Steps {
 	public void thenUserLogsIn() {
 		RepositoriesPage repos = new RepositoriesPage(driver);
 		Assert.assertNotEquals(0, repos.numberRepos());
+	}
+	
+	@Given("użytkownik jest na stronie głównej")
+	public void givenUserIsOnHomePage(){
+		Methods method = new Methods(driver);
+		method.login();
+		
+		RepositoriesPage repos = new RepositoriesPage(driver);		
+		beforeSearch = repos.numberRepos();
+	}
+	
+	@When("wpisze słowo do wyszukania")
+	public void whenWritesWordToSearch(){
+		String search = "test";
+		RepositoriesPage repos = new RepositoriesPage(driver);
+		repos.searchRepos(search);
+	}
+	
+	@Then("strona wyświetli wynik wyszukiwania")
+	public void thenPageShowsResultOfSearch(){
+		RepositoriesPage repos = new RepositoriesPage(driver);
+		
+		(new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getCurrentUrl().contains("test");
+            }
+        });
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.partialLinkText("test")));
+		
+		afterSearch = repos.numberRepos();
+		Assert.assertTrue(beforeSearch >= afterSearch);
 	}
 }
