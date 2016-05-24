@@ -1,0 +1,6 @@
+Scenariusz: Logowanie
+Zakładając, że użytkownik jest na stronie do logowania
+Gdy poda login i hasło
+Wtedy użytkownik zaloguje się
+
+
