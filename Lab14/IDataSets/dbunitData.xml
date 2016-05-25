@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <Authors FirstName="Henryk" LastName="Sienkiewicz"/>
+  <Authors FirstName="Adam" LastName="Mickiewicz"/>
+  <Books Title="W pustyni i w puszczy" Year="2000"/>
+  <Books Title="Pan Tadeusz" Year="1997"/>
+  <Books_has_authors Books_id_book="1" Authors_id_author="1"/>
+  <Books_has_authors Books_id_book="2" Authors_id_author="2"/>
+</dataset>
